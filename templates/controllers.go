@@ -17,7 +17,7 @@ import (
 )
 
 func setServer() {
-	f, err := os.Create(utils.ProjectName+"/internal/controllers/server.go")
+	f, err := os.Create(utils.ProjectName + "/internal/controllers/server.go")
 	if err != nil {
 		logs.Error(err)
 		return
@@ -49,13 +49,13 @@ func setServer() {
 	for _, collection := range utils.Collections {
 		f.WriteString("\n")
 		f.WriteString("    {\n")
-		f.WriteString("        c := "+collection.DBName+"Controller{}\n")
-		f.WriteString("        router.GET(`"+collection.ModelName+"/find/:publicID`, c.FindID)\n")
-		f.WriteString("        router.POST(`"+collection.ModelName+"/find`, c.Find)\n")
-		f.WriteString("        router.POST(`"+collection.ModelName+"s/list`, c.List)\n")
-		f.WriteString("        router.POST(`"+collection.ModelName+"/post`, c.Post)\n")
-		f.WriteString("        router.PUT(`"+collection.ModelName+"/update`, c.Update)\n")
-		f.WriteString("        router.DELETE(`"+collection.ModelName+"/delete`, c.Delete)\n")
+		f.WriteString("        c := " + collection.DBName + "Controller{}\n")
+		f.WriteString("        router.GET(`" + collection.ModelName + "/find/:publicID`, c.FindID)\n")
+		f.WriteString("        router.POST(`" + collection.ModelName + "/find`, c.Find)\n")
+		f.WriteString("        router.POST(`" + collection.ModelName + "s/list`, c.List)\n")
+		f.WriteString("        router.POST(`" + collection.ModelName + "/post`, c.Post)\n")
+		f.WriteString("        router.PUT(`" + collection.ModelName + "/update`, c.Update)\n")
+		f.WriteString("        router.DELETE(`" + collection.ModelName + "/delete`, c.Delete)\n")
 		f.WriteString("    }\n")
 	}
 
@@ -65,26 +65,26 @@ func setServer() {
 }
 
 func setFuncRoutes() {
-	setHeader := func(f *os.File, collection utils.TCollection){
+	setHeader := func(f *os.File, collection utils.TCollection) {
 		f.WriteString("package controllers\n\n")
 		f.WriteString("import (\n")
 		f.WriteString("    \"net/http\"\n")
-		f.WriteString("    \""+utils.ProjectRoot+"/internal/models\"\n")
+		f.WriteString("    \"" + utils.ProjectRoot + "/internal/models\"\n")
 		f.WriteString("    \"github.com/gin-gonic/gin\"\n")
 		f.WriteString("    \"github.com/gin-gonic/gin/binding\"\n")
 		f.WriteString(")\n\n")
-		f.WriteString("type "+collection.DBName+"Controller struct{}\n\n")
+		f.WriteString("type " + collection.DBName + "Controller struct{}\n\n")
 	}
 
-	setFuncFind := func(f *os.File, collection utils.TCollection){
+	setFuncFind := func(f *os.File, collection utils.TCollection) {
 		f.WriteString("//Find will retreive one element in the database\n")
-		f.WriteString("func (y "+collection.DBName+"Controller) Find(c *gin.Context) {\n")
+		f.WriteString("func (y " + collection.DBName + "Controller) Find(c *gin.Context) {\n")
 		f.WriteString("    var requestFilter models.RequestFilter\n")
 		f.WriteString("    if err := c.ShouldBindBodyWith(&requestFilter, binding.JSON); err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{`error`: `bad request`})\n")
 		f.WriteString("        return\n")
 		f.WriteString("    }\n\n")
-		f.WriteString("    result, err := models.New"+utils.Capitalize(collection.ModelName)+"().Find(requestFilter)\n")
+		f.WriteString("    result, err := models.New" + utils.Capitalize(collection.ModelName) + "().Find(requestFilter)\n")
 		f.WriteString("    if err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{`error`: `could not retreive element`})\n")
 		f.WriteString("        return\n")
@@ -92,9 +92,9 @@ func setFuncRoutes() {
 		f.WriteString("    c.JSON(http.StatusOK, result)\n")
 		f.WriteString("}\n\n")
 	}
-	setFuncFindID := func(f *os.File, collection utils.TCollection){
+	setFuncFindID := func(f *os.File, collection utils.TCollection) {
 		f.WriteString("//FindID will retreive one element in the database based on it's publicID\n")
-		f.WriteString("func (y "+collection.DBName+"Controller) FindID(c *gin.Context) {\n")
+		f.WriteString("func (y " + collection.DBName + "Controller) FindID(c *gin.Context) {\n")
 		f.WriteString("    var requestFilter models.RequestFilter\n")
 		f.WriteString("    var publicID = c.Param(`publicID`)\n")
 		f.WriteString("    if publicID == `` {\n")
@@ -102,7 +102,7 @@ func setFuncRoutes() {
 		f.WriteString("        return\n")
 		f.WriteString("    }\n\n")
 		f.WriteString("    requestFilter.Filter = map[string]string{`publicID`: publicID}\n")
-		f.WriteString("    result, err := models.New"+utils.Capitalize(collection.ModelName)+"().Find(requestFilter)\n")
+		f.WriteString("    result, err := models.New" + utils.Capitalize(collection.ModelName) + "().Find(requestFilter)\n")
 		f.WriteString("    if err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{`error`: `could not retreive element`})\n")
 		f.WriteString("        return\n")
@@ -110,15 +110,15 @@ func setFuncRoutes() {
 		f.WriteString("    c.JSON(http.StatusOK, result)\n")
 		f.WriteString("}\n\n")
 	}
-	setFuncList := func(f *os.File, collection utils.TCollection){
+	setFuncList := func(f *os.File, collection utils.TCollection) {
 		f.WriteString("//List will retreive multiple elements in the database\n")
-		f.WriteString("func (y "+collection.DBName+"Controller) List(c *gin.Context) {\n")
+		f.WriteString("func (y " + collection.DBName + "Controller) List(c *gin.Context) {\n")
 		f.WriteString("    var requestFilter models.RequestFilter\n")
 		f.WriteString("    if err := c.ShouldBindBodyWith(&requestFilter, binding.JSON); err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{`error`: `bad request`})\n")
 		f.WriteString("        return\n")
 		f.WriteString("    }\n\n")
-		f.WriteString("    result, err := models.New"+utils.Capitalize(collection.ModelName)+"().List(requestFilter)\n")
+		f.WriteString("    result, err := models.New" + utils.Capitalize(collection.ModelName) + "().List(requestFilter)\n")
 		f.WriteString("    if err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{`error`: `could not retreive elements`})\n")
 		f.WriteString("        return\n")
@@ -126,15 +126,15 @@ func setFuncRoutes() {
 		f.WriteString("    c.JSON(http.StatusOK, result)\n")
 		f.WriteString("}\n\n")
 	}
-	setFuncPost := func(f *os.File, collection utils.TCollection){
+	setFuncPost := func(f *os.File, collection utils.TCollection) {
 		f.WriteString("//Post will add one element in the database\n")
-		f.WriteString("func (y "+collection.DBName+"Controller) Post(c *gin.Context) {\n")
-		f.WriteString("    var modelFilter models."+utils.Capitalize(collection.ModelName)+"Filter\n")
+		f.WriteString("func (y " + collection.DBName + "Controller) Post(c *gin.Context) {\n")
+		f.WriteString("    var modelFilter models." + utils.Capitalize(collection.ModelName) + "Filter\n")
 		f.WriteString("    if err := c.ShouldBindBodyWith(&modelFilter, binding.JSON); err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{`error`: `bad request`})\n")
 		f.WriteString("        return\n")
 		f.WriteString("    }\n\n")
-		f.WriteString("    newElement := models.New"+utils.Capitalize(collection.ModelName)+"().Assign(modelFilter)\n")
+		f.WriteString("    newElement := models.New" + utils.Capitalize(collection.ModelName) + "().Assign(modelFilter)\n")
 		f.WriteString("    err := newElement.Post()\n")
 		f.WriteString("    if err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{`error`: `could not save element`})\n")
@@ -143,15 +143,15 @@ func setFuncRoutes() {
 		f.WriteString("    c.JSON(http.StatusOK, newElement)\n")
 		f.WriteString("}\n\n")
 	}
-	setFuncUpdate := func(f *os.File, collection utils.TCollection){
+	setFuncUpdate := func(f *os.File, collection utils.TCollection) {
 		f.WriteString("//Update will update one element from the database\n")
-		f.WriteString("func (y "+collection.DBName+"Controller) Update(c *gin.Context) {\n")
-		f.WriteString("    var modelFilter models."+utils.Capitalize(collection.ModelName)+"Filter\n")
+		f.WriteString("func (y " + collection.DBName + "Controller) Update(c *gin.Context) {\n")
+		f.WriteString("    var modelFilter models." + utils.Capitalize(collection.ModelName) + "Filter\n")
 		f.WriteString("    if err := c.ShouldBindBodyWith(&modelFilter, binding.JSON); err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{`error`: `bad request`})\n")
 		f.WriteString("        return\n")
 		f.WriteString("    }\n\n")
-		f.WriteString("    err := models.New"+utils.Capitalize(collection.ModelName)+"().Update(modelFilter)\n")
+		f.WriteString("    err := models.New" + utils.Capitalize(collection.ModelName) + "().Update(modelFilter)\n")
 		f.WriteString("    if err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{`error`: `could not update element`})\n")
 		f.WriteString("        return\n")
@@ -159,15 +159,15 @@ func setFuncRoutes() {
 		f.WriteString("    c.JSON(http.StatusOK, gin.H{`result`: `SUCCESS`})\n")
 		f.WriteString("}\n\n")
 	}
-	setFuncDelete := func(f *os.File, collection utils.TCollection){
+	setFuncDelete := func(f *os.File, collection utils.TCollection) {
 		f.WriteString("//Delete will delete one element from the database\n")
-		f.WriteString("func (y "+collection.DBName+"Controller) Delete(c *gin.Context) {\n")
-		f.WriteString("    var modelFilter models."+utils.Capitalize(collection.ModelName)+"Filter\n")
+		f.WriteString("func (y " + collection.DBName + "Controller) Delete(c *gin.Context) {\n")
+		f.WriteString("    var modelFilter models." + utils.Capitalize(collection.ModelName) + "Filter\n")
 		f.WriteString("    if err := c.ShouldBindBodyWith(&modelFilter, binding.JSON); err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{`error`: `bad request`})\n")
 		f.WriteString("        return\n")
 		f.WriteString("    }\n\n")
-		f.WriteString("    err := models.New"+utils.Capitalize(collection.ModelName)+"().Delete(modelFilter)\n")
+		f.WriteString("    err := models.New" + utils.Capitalize(collection.ModelName) + "().Delete(modelFilter)\n")
 		f.WriteString("    if err != nil {\n")
 		f.WriteString("        c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{`error`: `could not delete element`})\n")
 		f.WriteString("        return\n")
@@ -176,11 +176,8 @@ func setFuncRoutes() {
 		f.WriteString("}\n\n")
 	}
 
-
-
-
 	for _, collection := range utils.Collections {
-		f, err := os.Create(utils.ProjectName+"/internal/controllers/"+collection.DBName+".go")
+		f, err := os.Create(utils.ProjectName + "/internal/controllers/" + collection.DBName + ".go")
 		if err != nil {
 			logs.Error(err)
 			continue

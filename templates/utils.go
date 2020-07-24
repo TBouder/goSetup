@@ -17,7 +17,7 @@ import (
 )
 
 func setPublicID() {
-	f, err := os.Create(utils.ProjectName+"/internal/utils/publicID.go")
+	f, err := os.Create(utils.ProjectName + "/internal/utils/publicID.go")
 	if err != nil {
 		logs.Error(err)
 		return
@@ -41,7 +41,7 @@ func GetPublicIDFromID(id primitive.ObjectID) string {
 }`)
 }
 func setToPtr() {
-	f, err := os.Create(utils.ProjectName+"/internal/utils/toPtr.go")
+	f, err := os.Create(utils.ProjectName + "/internal/utils/toPtr.go")
 	if err != nil {
 		logs.Error(err)
 		return
@@ -74,7 +74,7 @@ func TimeToPtr(t time.Time) *time.Time {
 }`)
 }
 func setEnvironment() {
-	f, err := os.Create(utils.ProjectName+"/internal/utils/environment.go")
+	f, err := os.Create(utils.ProjectName + "/internal/utils/environment.go")
 	if err != nil {
 		logs.Error(err)
 		return
@@ -110,7 +110,7 @@ func InitEnvironment() {
 }`)
 }
 
-//SetUtils will create the internal/utils/* files 
+//SetUtils will create the internal/utils/* files
 func SetUtils() {
 	os.MkdirAll(utils.ProjectName+`/internal/utils`, os.ModePerm)
 	setPublicID()

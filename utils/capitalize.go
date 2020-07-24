@@ -20,4 +20,3 @@ func Capitalize(str string) string {
 	arrByteStr[0] = byte(unicode.ToUpper(rune(arrByteStr[0])))
 	return string(arrByteStr)
 }
-

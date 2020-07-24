@@ -11,7 +11,7 @@ package utils
 
 //TModel is the structure used in the config file to indicate which and how to create
 //the fields for a collection.
-type	TModel struct {
+type TModel struct {
 	Name string `json:"name"`
 	Type string `json:"type"`
 	Json string `json:"json"`
@@ -20,11 +20,11 @@ type	TModel struct {
 
 //TCollection is the structure used in the config file to indicate which and how to create
 //the mongodb collections (or the XXX tables)
-type	TCollection struct {
-	DBName string `json:"dbName"`
-	Name string `json:"name"`
-	ModelName string `json:"modelName"`
-	Model []TModel `json:"model"`
+type TCollection struct {
+	DBName    string   `json:"dbName"`
+	Name      string   `json:"name"`
+	ModelName string   `json:"modelName"`
+	Model     []TModel `json:"model"`
 }
 
 //ProjectName represent the name of the projet. Here, it's `goSetup`

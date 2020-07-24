@@ -7,7 +7,6 @@
 ** @Last modified by:		Tbouder
 *******************************************************************************/
 
-
 package templates
 
 import (
@@ -19,13 +18,13 @@ import (
 
 //SetGoModules will create all the go module related files
 func SetGoModules() {
-	f, err := os.Create(utils.ProjectName+"/go.mod")
+	f, err := os.Create(utils.ProjectName + "/go.mod")
 	if err != nil {
 		logs.Error(err)
 		return
 	}
 	defer f.Close()
 
-	f.WriteString("module "+utils.ProjectRoot+"\n\n")
+	f.WriteString("module " + utils.ProjectRoot + "\n\n")
 	f.WriteString("go 1.14\n")
 }

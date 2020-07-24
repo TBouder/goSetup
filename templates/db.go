@@ -17,7 +17,7 @@ import (
 )
 
 func setInit() {
-	f, err := os.Create(utils.ProjectName+"/internal/db/init.go")
+	f, err := os.Create(utils.ProjectName + "/internal/db/init.go")
 	if err != nil {
 		logs.Error(err)
 		return
@@ -33,7 +33,7 @@ func Init() {
 }
 
 func setInitClient() {
-	f, err := os.Create(utils.ProjectName+"/internal/db/initClient.go")
+	f, err := os.Create(utils.ProjectName + "/internal/db/initClient.go")
 	if err != nil {
 		logs.Error(err)
 		return
@@ -45,7 +45,7 @@ import (
     "context"
     "log"
 
-    "`+utils.ProjectRoot+`/internal/utils"
+    "` + utils.ProjectRoot + `/internal/utils"
     "go.mongodb.org/mongo-driver/mongo"
     "go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -64,7 +64,7 @@ func InitClient() {
 }
 
 func setInitCollections() {
-	f, err := os.Create(utils.ProjectName+"/internal/db/initCollections.go")
+	f, err := os.Create(utils.ProjectName + "/internal/db/initCollections.go")
 	if err != nil {
 		logs.Error(err)
 		return
@@ -78,9 +78,9 @@ func setInitCollections() {
 	f.WriteString("var (")
 	for _, collection := range utils.Collections {
 		f.WriteString("\n")
-		f.WriteString(`    //`+utils.Capitalize(collection.DBName)+` is the collection used to store the `+collection.Name)
+		f.WriteString(`    //` + utils.Capitalize(collection.DBName) + ` is the collection used to store the ` + collection.Name)
 		f.WriteString("\n")
-		f.WriteString("    "+utils.Capitalize(collection.DBName)+` *mongo.Collection`)
+		f.WriteString("    " + utils.Capitalize(collection.DBName) + ` *mongo.Collection`)
 	}
 
 	f.WriteString("\n)\n\n")
@@ -88,7 +88,7 @@ func setInitCollections() {
 	f.WriteString("func InitCollections() {")
 	for _, collection := range utils.Collections {
 		f.WriteString("\n")
-		f.WriteString("    "+utils.Capitalize(collection.DBName)+` = db.Collection("`+collection.DBName+`")`)
+		f.WriteString("    " + utils.Capitalize(collection.DBName) + ` = db.Collection("` + collection.DBName + `")`)
 	}
 	f.WriteString("\n}")
 }

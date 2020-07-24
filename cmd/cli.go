@@ -21,9 +21,9 @@ import (
 )
 
 //Config represent the configuration file as a go struct
-type	Config struct {
-	ProjectName string `json:"name"`
-	ProjectRoot string `json:"root"`
+type Config struct {
+	ProjectName string              `json:"name"`
+	ProjectRoot string              `json:"root"`
 	Collections []utils.TCollection `json:"collections"`
 }
 
