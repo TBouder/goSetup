@@ -118,6 +118,7 @@ curl --request POST \
 ```
 
 ## Road Map
+- [ ] Provide installation process
 - [ ] Provide full example
 - [ ] Auto-generated repository example
 - [ ] Detailled `config` file
