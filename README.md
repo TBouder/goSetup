@@ -16,6 +16,7 @@ GoSetup will perform a basic initialization for a quick and easy start of your n
 
 🐳    -    Provide some basic ready-to-use deployment configuration with **[Docker](https://www.docker.com/)**, with a `DockerFile`, a specific `docker-compose.yml` for your dev environment and one for your prod.
 
+<br />
 
 ## ⚙️ How does this work ?
 Based on a minimal configuration file, GoSetup will generate the needed code to setup your API routing with your database connection.  
@@ -116,6 +117,8 @@ curl --request POST \
   "skip": 0
 }'
 ```
+
+<br />
 
 ## Road Map
 - [ ] Provide installation process
